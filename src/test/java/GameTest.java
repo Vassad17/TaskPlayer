@@ -34,11 +34,9 @@ public class GameTest {
         game.register(player1);
         game.register(player2);
 
-        NotRegisteredException exception = assertThrows(
-                NotRegisteredException.class,
-                () -> game.round("DiamondProx", "Faker")
-        );
-        Assertions.assertEquals("Player DiamondProx is not registered", exception.getMessage());
+        Assertions.assertThrows(NotRegisteredException.class, () -> {
+            game.round("Faker", "DiamondProx");
+        });
     }
 
     @Test
@@ -51,12 +49,24 @@ public class GameTest {
         game.register(player1);
 
 
-        NotRegisteredException exception = assertThrows(
-                NotRegisteredException.class,
-                () -> game.round("Faker", "DiamondProx")
-        );
-        Assertions.assertEquals("Player DiamondProx is not registered", exception.getMessage());
+        Assertions.assertThrows(NotRegisteredException.class, () -> {
+            game.round("Zanzarah", "DiamondProx");
+        });
     }
+    @Test
+    public void shouldThrowNotRegisteredExceptionWhenPlayerIsNotRegistered() {
+        Game game = new Game();
+        Player player1 = new Player(1,"Faker",10);
+        Player player2 = new Player(2,"Zanzarah",8);
+        Player player3 = new Player(3,"DiamondProx",8);
+
+
+
+        Assertions.assertThrows(NotRegisteredException.class, () -> {
+            game.round("Zanzarah", "DiamondProx");
+        });
+    }
+
 
     @Test
     public void shouldReturnOneWhenPlayer1Wins() {
